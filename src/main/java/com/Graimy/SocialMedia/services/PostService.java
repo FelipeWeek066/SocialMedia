@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.Graimy.SocialMedia.domains.Comment;
 import com.Graimy.SocialMedia.domains.Post;
 import com.Graimy.SocialMedia.domains.DTO.PersonDTO;
 import com.Graimy.SocialMedia.domains.DTO.PostDTO;
@@ -37,21 +38,24 @@ public class PostService {
 	}
 	
 	public List<Post> findByUser(PersonDTO dto){
-		return repository.findByPersonDTO(dto);
+		return repository.findByAuthorDTO(dto);
 	}
 	
-	public Post insert(PostDTO post) {
-		Post obj = new Post(post.getId(),post.getContent(),Instant.now(),post.getPersonDTO());
-		if(post.getPersonDTO() != null) {
-			repository.save(obj);
-			userService.addPostIn(obj);
-			return obj;
-		}else {
-			throw new ObjectNotFoundException(post.getPersonDTO().getName());
+	public void insert(Post post) {
+		post.setDate(Instant.now());
+		userService.findByName(post.getAuthorDTO().getName());
+		Post obj = repository.save(post);
+		userService.addPostIn(obj);
+	}
+	
+	public void addCommentIn(Comment comment){
+		if(findById(comment.getLinkedPostId()) != null){
+			if(userService.findByName(comment.getAuthor().getName()) != null){
+				comment.setDate(Instant.now());
+				Post post = findById(comment.getLinkedPostId());
+				post.getComments().add(comment);
+				repository.save(post);
+			}
 		}
-	}
-	
-	public Post fromDTO(PostDTO obj) {
-		return new Post(obj.getId(),obj.getContent(),obj.getDate(),obj.getPersonDTO());
 	}
 }

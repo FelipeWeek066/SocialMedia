@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.Graimy.SocialMedia.domains.Post;
 import com.Graimy.SocialMedia.domains.User;
+import com.Graimy.SocialMedia.domains.DTO.PostDTO;
 import com.Graimy.SocialMedia.domains.DTO.UserDTO;
 import com.Graimy.SocialMedia.services.UserService;
 
@@ -21,10 +21,9 @@ public class UserResource {
 	private UserService service;
 	
 	@GetMapping(value = "/{name}/Posts")
-	public ResponseEntity<List<Post>> findUserPosts(@PathVariable String name) {
+	public ResponseEntity<List<PostDTO>> findUserPosts(@PathVariable String name) {
 		User obj = service.findByName(name);
-		System.out.println(obj.getPosts());
-		return ResponseEntity.ok().body(obj.getPosts());
+		return ResponseEntity.ok().body(obj.getPosts().stream().map(x -> new PostDTO(x)).collect(Collectors.toList()));
 	}
 	
 	@GetMapping(value = "/Users")

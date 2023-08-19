@@ -35,11 +35,13 @@ public class User implements Serializable{
 	@Indexed(unique = true)
 	@NonNull
 	private String password;
-	@NonNull
 	private LocalDate date;
 	@Setter(value = AccessLevel.NONE)
 	@DBRef(lazy = true)
 	private List<Post> posts = new ArrayList<>();
+	@Setter(value = AccessLevel.NONE)
+	@DBRef(lazy = true)
+	private List<Comment> comments = new ArrayList<>();
 	
 	public User(String name, String email, String password) {
 		this.name = name;

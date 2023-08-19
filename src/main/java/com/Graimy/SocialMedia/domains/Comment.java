@@ -4,48 +4,44 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.Graimy.SocialMedia.domains.DTO.CommentDTO;
 import com.Graimy.SocialMedia.domains.DTO.PersonDTO;
-import com.Graimy.SocialMedia.domains.DTO.PostDTO;
 import com.Graimy.SocialMedia.domains.DTO.VoteDTO;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Data
-@NoArgsConstructor
+@NoArgsConstructor 
 @AllArgsConstructor
 @Document
-public class Post implements Serializable{
+public class Comment implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
 	private String id;
 	private String content;
+	private PersonDTO author;
 	private Instant date;
-	private PersonDTO authorDTO;
-	@Setter(value = AccessLevel.NONE)
-	@DBRef(lazy = true)
-	private List<Comment> comments = new ArrayList<>();
-	@Setter(value = AccessLevel.NONE)
+	private String linkedPostId;
+	private Optional<String> linkedCommentId;
 	private List<VoteDTO> votes = new ArrayList<>();
-	public Post(PostDTO obj) {
+	
+	public Comment(CommentDTO obj) 
+	{
 		setId(obj.getId());
 		setContent(obj.getContent());
-		setAuthorDTO(obj.getAuthorDTO());
+		setAuthor(obj.getAuthor());
 		setDate(obj.getDate());
+		setLinkedPostId(obj.getLinkedPostId());
+		setLinkedCommentId(obj.getLinkedCommentId());
+		setVotes(obj.getVotes());
 	}
 	
-	public Post(String content, PersonDTO authorDTO, Instant date) {
-		this.content = content;
-		this.authorDTO = authorDTO;
-		this.date = date;
-	}
 	
 }

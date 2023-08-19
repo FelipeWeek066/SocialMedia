@@ -28,6 +28,7 @@ public class PostResource {
 	private PostService service;
 	@Autowired
 	private UserService userService;
+	
 	@GetMapping(value = "/Posts")
 	public ResponseEntity<List<Post>> findPosts(){	
 		List<Post> list = service.findAll();
@@ -36,9 +37,8 @@ public class PostResource {
 	
 	@PostMapping(value = "/{userName}")
 	public ResponseEntity<Post> insert(@PathVariable String userName, @RequestBody PostDTO post){	
-		
-		post.setPersonDTO(new PersonDTO(userService.findByName(userName)));
-		service.insert(post);
+		post.setAuthorDTO(new PersonDTO(userService.findByName(userName)));
+		service.insert(new Post(post));
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{userName}").buildAndExpand(post.getId()).toUri();
 		
 		return ResponseEntity.created(uri).build();

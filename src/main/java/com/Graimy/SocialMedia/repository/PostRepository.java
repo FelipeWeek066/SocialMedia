@@ -11,7 +11,7 @@ import com.Graimy.SocialMedia.domains.DTO.PersonDTO;
 
 public interface PostRepository extends MongoRepository<Post, String>{
 
-	List<Post> findByPersonDTO(PersonDTO obj);
+	List<Post> findByAuthorDTO(PersonDTO obj);
 	
 	@Query("{ $and: [{date: {$gte: ?1}}, {date: {$lte: ?2}}, { $or: [{'content': { $regex: ?0, $options: 'i'} }, {'personDTO': { $regex: ?0, $options: 'i'} } ]}]}")
 	List<Post> fullSearch(String text, Date minDate, Date maxDate);

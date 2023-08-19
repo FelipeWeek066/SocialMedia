@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.Graimy.SocialMedia.domains.Comment;
 import com.Graimy.SocialMedia.domains.Post;
 import com.Graimy.SocialMedia.domains.DTO.PersonDTO;
-import com.Graimy.SocialMedia.domains.DTO.PostDTO;
+import com.Graimy.SocialMedia.domains.DTO.VoteDTO;
 import com.Graimy.SocialMedia.repository.PostRepository;
 import com.Graimy.SocialMedia.services.exception.ObjectNotFoundException;
 
@@ -41,6 +41,20 @@ public class PostService {
 		return repository.findByAuthorDTO(dto);
 	}
 	
+	public void addVote(String postId, VoteDTO vote) {
+		Post post = findById(postId);
+		post.getVotes().removeIf(x -> x.getAuthor().getName().equals(vote.getAuthor().getName())); 
+		post.getVotes().add(vote);
+		repository.save(post);
+	}
+	
+	public void remVote(String postId, PersonDTO author) {
+		Post post = findById(postId);
+		post.getVotes().removeIf(x -> x.getAuthor() == author);
+		repository.save(post);
+	}
+	
+	
 	public void insert(Post post) {
 		post.setDate(Instant.now());
 		userService.findByName(post.getAuthorDTO().getName());
@@ -58,4 +72,5 @@ public class PostService {
 			}
 		}
 	}
+	
 }

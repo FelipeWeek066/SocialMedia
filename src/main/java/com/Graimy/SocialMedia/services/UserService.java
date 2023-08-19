@@ -1,6 +1,7 @@
 package com.Graimy.SocialMedia.services;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.Graimy.SocialMedia.domains.Comment;
 import com.Graimy.SocialMedia.domains.Post;
 import com.Graimy.SocialMedia.domains.User;
+import com.Graimy.SocialMedia.domains.DTO.PersonDTO;
 import com.Graimy.SocialMedia.repository.UserRepository;
 import com.Graimy.SocialMedia.services.exception.BlankContentException;
 import com.Graimy.SocialMedia.services.exception.ObjectNotFoundException;
@@ -41,6 +43,40 @@ public class UserService {
 		User obj = findByName(post.getAuthorDTO().getName());
 		obj.getPosts().add(post);
 		return repository.save(obj);
+	}
+	
+	
+	public void unFollowSomeOne(String follower, String followed) {
+		User tUser = findByName(follower);
+		User fTUser = findByName(followed);
+		if(tUser.getFollowing().contains(new PersonDTO(fTUser))) {
+			tUser.getFollowing().remove(new PersonDTO(fTUser));
+			fTUser.getFollowers().remove(new PersonDTO(tUser));
+			if(tUser.getFriends().contains(new PersonDTO(fTUser))) {
+				tUser.getFriends().remove(new PersonDTO(fTUser));
+				fTUser.getFriends().remove(new PersonDTO(tUser));
+			}
+			repository.saveAll(Arrays.asList(tUser, fTUser));
+		}else {
+			throw new ObjectNotFoundException(tUser.getName() + " does not follow: " + fTUser.getName());
+		}
+	}
+	
+	
+	
+	public void followSomeOne(String follower, String followed) {
+		User tUser = findByName(follower);
+		User fTUser = findByName(followed);
+		if(!tUser.getFollowing().contains(new PersonDTO(fTUser))) {
+		tUser.getFollowing().add(new PersonDTO(fTUser));
+		fTUser.getFollowers().add(new PersonDTO(tUser));
+		if(tUser.getFollowing().contains(new PersonDTO(fTUser))) {
+			tUser.getFriends().add(new PersonDTO(fTUser));
+			fTUser.getFriends().add(new PersonDTO(tUser));
+			System.out.println(tUser.getName() + " is now friend of: " + fTUser.getName());
+		}
+		}
+		repository.saveAll(Arrays.asList(tUser, fTUser));
 	}
 	
 	public User insert(User user) {

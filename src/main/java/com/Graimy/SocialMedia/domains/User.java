@@ -10,6 +10,8 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.Graimy.SocialMedia.domains.DTO.PersonDTO;
+import com.Graimy.SocialMedia.domains.DTO.VoteDTO;
 import com.mongodb.lang.NonNull;
 
 import lombok.AccessLevel;
@@ -39,6 +41,12 @@ public class User implements Serializable{
 	@Setter(value = AccessLevel.NONE)
 	@DBRef(lazy = true)
 	private List<Post> posts = new ArrayList<>();
+	@Setter(value = AccessLevel.NONE)
+	private List<PersonDTO> friends = new ArrayList<>();
+	@Setter(value = AccessLevel.NONE)
+	private List<PersonDTO> following = new ArrayList<>();
+	@Setter(value = AccessLevel.NONE)
+	private List<PersonDTO> followers = new ArrayList<>();
 	@Setter(value = AccessLevel.NONE)
 	@DBRef(lazy = true)
 	private List<Comment> comments = new ArrayList<>();

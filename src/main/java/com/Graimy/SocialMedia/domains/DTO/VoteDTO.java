@@ -15,6 +15,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class VoteDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
-	Vote vote;
-	PersonDTO Author;
+	private Vote vote;
+	private PersonDTO Author;
 }

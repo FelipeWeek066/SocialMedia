@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,9 +47,11 @@ public class PostResource {
 		return ResponseEntity.ok().body(service.findByUser(new PersonDTO(obj)).stream().map(x -> new PostDTO(x)).collect(Collectors.toList()));
 	}
 	
-	@PostMapping(value = "/{userName}")
-	public ResponseEntity<Post> insert(@PathVariable String userName, @RequestBody PostDTO post){	
-		post.setAuthorDTO(new PersonDTO(userService.findByName(userName)));
+	@PostMapping(value = "/Posts")
+	public ResponseEntity<Post> insert(@RequestBody PostDTO post){	
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String loggedUserName = authentication.getName();
+		post.setAuthorDTO(new PersonDTO(userService.findByName(loggedUserName)));
 		service.insert(new Post(post));
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{userName}").buildAndExpand(post.getId()).toUri();
 		return ResponseEntity.created(uri).build();

@@ -14,18 +14,12 @@
     <div class="Posts">
      
        <div class="post_Container">
-          <img class="authorImg">
-          <h3 class="AuthorName">Author Name</h3>
 
           <div class="post_Content">
-            <p>aqui vai ter uma postagem extensa e numerosa em quantidade de palavras e letras, o proprio sistema vai ter que ser capaz de quebrar e mostrar corretamente a postagem como também vai ter que aumentar seu tamanho conforme ela vai ficando maior</p>
-                </div>
-          
-        <div class="Post_Feedback">
-          <img class = "daora" src="daora.png">
-           <img class = "odiei" src="odiei.png">
-           <img class="comments" src="comments.png">
-           <p class="commentQuantity">53</p>
+			  <form>
+            <input type="text" class="newPostContent" name="content" placeholder="Content"> 
+          	<button class="addPostButton">Postar</button>
+          	</form>
         </div>
        </div>
     </div>
@@ -207,7 +201,8 @@ background-color: #f0f0f0;
 .friend_name {
   margin: 0;
 }</style>
-  <script>async function exibirPosts(){
+  <script>
+	  async function exibirPosts(){
 	try{
 		const response = await fetch("http://localhost:8080/Posts");
 		const postas = await response.json();
@@ -274,7 +269,35 @@ background-color: #f0f0f0;
 		console.error('Erro construir post:', error);
 	}
 }
-
+ const formulario = document.querySelector("form");
+const contente = document.querySelector(".newPostContent");
+	
+async function addPost() {
+    try {
+        const response = await fetch("/Posts", {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            method: "POST",
+            body: JSON.stringify({
+                content: contente.value
+            })
+        });
+        limpar();
+        exibirPosts(); // Atualize os posts após adicionar um novo
+    } catch (error) {
+        console.error('Erro ao adicionar post:', error);
+    }
+}
+function limpar(){
+	contente.value = "";
+}
+	const btnPostar = document.querySelector(".addPostButton"); // Correção aqui
+	btnPostar.addEventListener('click', function() {
+    addPost();
+});
+	
 document.addEventListener('DOMContentLoaded', exibirPosts);</script>
 </body>
 

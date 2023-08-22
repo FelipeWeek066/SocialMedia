@@ -15,10 +15,14 @@ public class UserDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private String name;
-	private String email;
+	private int friends;
+	private int followers;
+	private int following;
 	
 	public UserDTO(User obj) {
 		setName(obj.getName());
-		setEmail(obj.getEmail());
+		setFriends(obj.getFriends().size());
+		setFollowers(obj.getFollowers().size());
+		setFollowing(obj.getFollowing().size());
 	}
 }

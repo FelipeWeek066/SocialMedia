@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Graimy.SocialMedia.domains.Comment;
+import com.Graimy.SocialMedia.domains.User;
 import com.Graimy.SocialMedia.domains.DTO.PersonDTO;
 import com.Graimy.SocialMedia.domains.DTO.VoteDTO;
 import com.Graimy.SocialMedia.repository.CommentRepository;
@@ -56,10 +57,18 @@ public class CommentService {
 		if(!comment.getContent().isBlank()) {
 			Comment obj = comment;
 			repository.save(obj);
-			postService.addCommentIn(obj);
-			userService.addCommentIn(obj);
 		}else {
 			throw new BlankContentException("Content cannot be blank");
+		}
+	}
+	
+	public void delete(String userId,String id) {
+		User user = userService.findById(userId);
+		if(findById(id).getAuthor().getName() == user.getName()){
+			postService.findById(findById(id).getLinkedPostId());
+			repository.delete(findById(id));
+		}else {
+			throw new ObjectNotFoundException("diferent author");
 		}
 	}
 }

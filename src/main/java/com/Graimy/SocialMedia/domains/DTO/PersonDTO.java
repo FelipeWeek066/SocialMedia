@@ -13,6 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PersonDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
+	
 	private String name;
 	
 	public PersonDTO(User obj) {

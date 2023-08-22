@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+  <title>Rede Social</title>
+</head>
+<body>
+  <div class="containere">
+    <div class="stuff">aqui tem stuff</div>
+    <div class="Posts">
+     
+       <div class="post_Container">
+          <img class="authorImg">
+          <h3 class="AuthorName">Author Name</h3>
+
+          <div class="post_Content">
+            <p>aqui vai ter uma postagem extensa e numerosa em quantidade de palavras e letras, o proprio sistema vai ter que ser capaz de quebrar e mostrar corretamente a postagem como também vai ter que aumentar seu tamanho conforme ela vai ficando maior</p>
+                </div>
+          
+        <div class="Post_Feedback">
+          <img class = "daora" src="daora.png">
+           <img class = "odiei" src="odiei.png">
+           <img class="comments" src="comments.png">
+           <p class="commentQuantity">53</p>
+        </div>
+       </div>
+    </div>
+     <div class="FriendDivSep">
+      <div class="profile_space">
+        <h1 class="friendTitle">Graimy</h1>
+        <img class="configImg" src="amigo.png">
+        <img class="profileImg" src="profileImg.png">
+      </div>
+    <div class="Friends">
+      <h1 class="friendTitle">Amigos</h1>
+      <button class="friend_card">
+        <img class="friend_img" src="amigo.png">
+        <p class="friend_name">Nome do amigo </p>
+      </button>
+       <button class="friend_card">
+        <img class="friend_img" src="amigo.png">
+        <p class="friend_name">Nome do amigo </p>
+      </button>
+       <button class="friend_card">
+        <img class="friend_img" src="amigo.png">
+        <p class="friend_name">Nome do amigo </p>
+      </button>
+       <button class="friend_card">
+        <img class="friend_img" src="amigo.png">
+        <p class="friend_name">Nome do amigo </p>
+      </button>
+       <button class="friend_card">
+        <img class="friend_img" src="amigo.png">
+        <p class="friend_name">Nome do amigo </p>
+      </button>
+       <button class="friend_card">
+        <img class="friend_img" src="amigo.png">
+        <p class="friend_name">Nome do amigo </p>
+      </button>
+       <button class="friend_card">
+        <img class="friend_img" src="amigo.png">
+        <p class="friend_name">Nome do amigo </p>
+   
+    </div>
+    </div>
+  </div>
+  <style>body {
+  background-color: #809bce;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  min-height: 100vh;
+}
+
+.containere {
+
+  display: flex;
+  background-color: #abc4ff;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  padding: 0px 10px;
+}
+.profile_space {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; 
+  text-align: center;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+  background-color: #edf2fb;
+  border-radius: 15px;
+  padding: 10px;
+  margin: 10px 5px 15px 5px;
+  height: 60px;
+}
+.configImg, .profileImg{
+  width: 40px;
+  height: 40px;
+  background-color: black;
+  border-radius: 100px;
+  margin-left: 10px; /* Add some margin between the images */
+
+}
+
+.Friends {
+  flex: 1;
+  display: flex; 
+  flex-direction: column;
+  text-align: center;
+  box-shadow:  0px 0px 10px rgba(0, 0, 0, 0.4);
+  background-color: #edf2fb;
+  border-radius: 15px;
+  padding: 10px;
+  margin: -5px 5px 10px 5px;
+}
+
+.FriendDivSep{
+  flex: 0.7;
+  display: flex; 
+  flex-direction: column;
+}
+
+.stuff{ 
+  flex: 0.6;
+   display: flex; 
+  flex-direction: column;
+  text-align: center;
+  box-shadow:  0px 0px 10px rgba(0, 0, 0, 0.4);
+  background-color: #edf2fb;
+  border-radius: 15px;
+  padding: 10px;
+  margin: 10px 5px;
+}
+
+.authorImg{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: lightblue;
+  margin: 10px;
+}
+
+.AuthorName{
+  display: inline;
+  text-align: center;
+}
+
+.Posts {
+  flex: 2;
+  border-radius: 15px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  background-color: #edf2fb ;
+  padding: 15px;
+  border: 2px solid ffee93 ;
+  margin: 10px 5px;
+}
+
+.post_Container{
+  border-radius: 15px;
+  border: 1px solid black;
+  background-color: #f9f6f2 ;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  margin: 5px;
+}
+
+.daora, .odiei, .comments{
+  margin: 10px;
+  width: 35px;
+  height: 35px;
+}
+
+.commentQuantity{
+  display: inline;
+}
+.friend_card{
+
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.4);
+  margin: 1px;
+  height: 45px;
+  border: 2px solid #ffee93 ;
+  border-radius: 10px;
+  background-color:  #f9f6f2;
+  transition: background-color 0.3s;
+}
+
+.friend_card:hover{
+background-color: #f0f0f0;
+}
+
+.friend_img{
+  width: 40px;
+  height: 40px;
+  background-color: lightblue;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.friend_name {
+  margin: 0;
+}</style>
+  <script>async function exibirPosts(){
+	try{
+		const response = await fetch("http://localhost:8080/Posts");
+		const postas = await response.json();
+
+		const poster = document.querySelector('.Posts');
+
+		postas.forEach(post => {
+
+			const PostContainer = document.createElement("div");
+			PostContainer.classList.add("post_Container");
+			const authorImg = document.createElement('img');
+			authorImg.classList.add('authorImg');
+
+			const authorName = document.createElement('h3');
+				authorName.classList.add('AuthorName');
+				authorName.textContent = post.authorDTO.name;
+
+			const postContent = document.createElement('div');
+				postContent.classList.add('post_Content');
+
+			const postTextContent = document.createElement('p');
+				postTextContent.classList.add('post_text_content');
+
+			postTextContent.textContent = post.content;
+
+			const divFeedBack = document.createElement('div');
+				divFeedBack.classList.add('Post_Feedback');
+
+			const daora = document.createElement('img');
+				daora.classList.add('daora');
+				
+				const daoraQuantity = document.createElement('p');
+				daoraQuantity.textContent = 0 + post.daoraQuantity;
+
+			const odiei = document.createElement('img');
+				odiei.classList.add('odiei');
+
+
+			const comments = document.createElement('img');
+				comments.classList.add('comments');
+
+
+			const commentsQuantity = document.createElement('p');
+				commentsQuantity.classList.add('commentQuantity');
+				commentsQuantity.textContent = post.commentQuantity;
+				
+				poster.appendChild(PostContainer);
+				PostContainer.appendChild(authorImg);
+				PostContainer.appendChild(authorName);
+				PostContainer.appendChild(postContent);
+				
+				postContent.appendChild(postTextContent);
+
+				PostContainer.appendChild(divFeedBack);
+
+				divFeedBack.appendChild(daora);
+				divFeedBack.appendChild(odiei);
+				divFeedBack.appendChild(comments);
+				divFeedBack.appendChild(commentsQuantity);
+				
+
+		});
+	}catch(error){
+		console.error('Erro construir post:', error);
+	}
+}
+
+document.addEventListener('DOMContentLoaded', exibirPosts);</script>
+</body>
+
+</html>

@@ -9,9 +9,9 @@ import org.springframework.stereotype.Controller;
 import com.Graimy.SocialMedia.domains.Comment;
 import com.Graimy.SocialMedia.domains.Post;
 import com.Graimy.SocialMedia.domains.User;
-import com.Graimy.SocialMedia.domains.DTO.CommentDTO;
 import com.Graimy.SocialMedia.domains.DTO.PersonDTO;
-import com.Graimy.SocialMedia.domains.DTO.PostDTO;
+import com.Graimy.SocialMedia.domains.DTO.VoteDTO;
+import com.Graimy.SocialMedia.enums.Vote;
 import com.Graimy.SocialMedia.repository.PostRepository;
 import com.Graimy.SocialMedia.repository.UserRepository;
 import com.Graimy.SocialMedia.services.CommentService;
@@ -51,14 +51,19 @@ public class TestConfig implements CommandLineRunner{
 		postService.insert(p2);
 		postService.insert(p3);
 		
-		System.out.println(p1.getId());
 		Comment c1 = new Comment(null, "Parabens mano, boa viagem", new PersonDTO(u3), Instant.now(), p1.getId(), null, null);
-		Comment c2 = new Comment(null, "pega 3 kilo de farinha 4 kilo de ovo mistura tudo e dai você joga fora", new PersonDTO(u3), Instant.now(), p2.getId(), null, null);
+		Comment c2 = new Comment(null, "pega 3 kilo de farinha 4 kilo de ovo mistura tudo e dai você joga fora porque essa receita não presta", new PersonDTO(u3), Instant.now(), p2.getId(), null, null);
 		Comment c3 = new Comment(null, "pirataria é crime man", new PersonDTO(u1), Instant.now(), p3.getId(), null, null);
 		
 		commentService.insert(c1);
 		commentService.insert(c2);
 		commentService.insert(c3);
 		
+		
+		postService.addVote(p1.getId(), new VoteDTO(Vote.daora, new PersonDTO(u2)));
+		postService.addVote(p2.getId(), new VoteDTO(Vote.daora, new PersonDTO(u1)));
+		postService.addVote(p2.getId(), new VoteDTO(Vote.daora, new PersonDTO(u3)));
+		postService.addVote(p3.getId(), new VoteDTO(Vote.daora, new PersonDTO(u1)));
+		commentService.addVote(c3.getId(), new VoteDTO(Vote.daora, new PersonDTO(u3)));
 	}
 }

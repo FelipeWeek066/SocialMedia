@@ -8,11 +8,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.Graimy.SocialMedia.domains.Comment;
 import com.Graimy.SocialMedia.domains.Post;
 import com.Graimy.SocialMedia.domains.DTO.PersonDTO;
 import com.Graimy.SocialMedia.domains.DTO.VoteDTO;
 import com.Graimy.SocialMedia.repository.PostRepository;
+import com.Graimy.SocialMedia.services.exception.BlankContentException;
 import com.Graimy.SocialMedia.services.exception.ObjectNotFoundException;
 
 @Service
@@ -54,23 +54,13 @@ public class PostService {
 		repository.save(post);
 	}
 	
-	
-	public void insert(Post post) {
+	public Post insert(Post post) {
 		post.setDate(Instant.now());
-		userService.findByName(post.getAuthorDTO().getName());
-		Post obj = repository.save(post);
-		userService.addPostIn(obj);
-	}
-	
-	public void addCommentIn(Comment comment){
-		if(findById(comment.getLinkedPostId()) != null){
-			if(userService.findByName(comment.getAuthor().getName()) != null){
-				comment.setDate(Instant.now());
-				Post post = findById(comment.getLinkedPostId());
-				post.getComments().add(comment);
-				repository.save(post);
-			}
+		if(!post.getContent().isBlank()) {
+			userService.findByName(post.getAuthorDTO().getName());
+			return repository.save(post);
+		}else {
+			throw new BlankContentException("the content of post is blank");
 		}
 	}
-	
 }

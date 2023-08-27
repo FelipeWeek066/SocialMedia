@@ -31,34 +31,7 @@
       </div>
     <div class="Friends">
       <h1 class="friendTitle">Amigos</h1>
-      <button class="friend_card">
-        <img class="friend_img" src="amigo.png">
-        <p class="friend_name">Nome do amigo </p>
-      </button>
-       <button class="friend_card">
-        <img class="friend_img" src="amigo.png">
-        <p class="friend_name">Nome do amigo </p>
-      </button>
-       <button class="friend_card">
-        <img class="friend_img" src="amigo.png">
-        <p class="friend_name">Nome do amigo </p>
-      </button>
-       <button class="friend_card">
-        <img class="friend_img" src="amigo.png">
-        <p class="friend_name">Nome do amigo </p>
-      </button>
-       <button class="friend_card">
-        <img class="friend_img" src="amigo.png">
-        <p class="friend_name">Nome do amigo </p>
-      </button>
-       <button class="friend_card">
-        <img class="friend_img" src="amigo.png">
-        <p class="friend_name">Nome do amigo </p>
-      </button>
-       <button class="friend_card">
-        <img class="friend_img" src="amigo.png">
-        <p class="friend_name">Nome do amigo </p>
-   
+     
     </div>
     </div>
   </div>
@@ -202,7 +175,32 @@ background-color: #f0f0f0;
   margin: 0;
 }</style>
   <script>
-	  async function exibirPosts(){
+	  
+	  async function exibirFriends(){
+		  try{
+			  const response = await fetch("http://localhost:8080/Friends");
+			  const friends = await response.json();
+			  
+			  const friendDiv = document.querySelector('.Friends');
+			  
+			  friends.forEach(friend => {
+				  const friendQuad = document.createElement('Button');
+				  friendQuad.classList.add("friend_card");
+				  const friendimg = document.createElement('img');
+				  friendimg.classList.add("friend_img");
+				  const friendName = document.createElement('p');
+				  friendName.classList.add("friend_name");
+				  friendName.textContent = friend.name;
+				  
+				  friendDiv.appendChild(friendQuad);
+				  friendQuad.appendChild(friendimg);
+				  friendQuad.appendChild(friendName);
+			  });
+			  
+		  }catch(error){console.error('erro ao carregar amigos', error);}
+	  }
+	  
+async function exibirPosts(){
 	try{
 		const response = await fetch("http://localhost:8080/Posts");
 		const postas = await response.json();
@@ -269,36 +267,22 @@ background-color: #f0f0f0;
 		console.error('Erro construir post:', error);
 	}
 }
+
+
+
  const formulario = document.querySelector("form");
 const contente = document.querySelector(".newPostContent");
 	
-async function addPost() {
-    try {
-        const response = await fetch("/Posts", {
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            method: "POST",
-            body: JSON.stringify({
-                content: contente.value
-            })
-        });
-        limpar();
-        exibirPosts(); // Atualize os posts após adicionar um novo
-    } catch (error) {
-        console.error('Erro ao adicionar post:', error);
-    }
-}
 function limpar(){
 	contente.value = "";
 }
 	const btnPostar = document.querySelector(".addPostButton"); // Correção aqui
 	btnPostar.addEventListener('click', function() {
-    addPost();
 });
 	
-document.addEventListener('DOMContentLoaded', exibirPosts);</script>
+document.addEventListener('DOMContentLoaded', exibirPosts);
+document.addEventListener('DOMContentLoaded', exibirFriends);
+</script>
 </body>
 
 </html>

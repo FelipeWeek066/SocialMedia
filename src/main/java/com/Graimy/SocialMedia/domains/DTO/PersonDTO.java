@@ -4,12 +4,10 @@ import java.io.Serializable;
 
 import com.Graimy.SocialMedia.domains.User;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class PersonDTO implements Serializable{
 	private static final long serialVersionUID = 1L;

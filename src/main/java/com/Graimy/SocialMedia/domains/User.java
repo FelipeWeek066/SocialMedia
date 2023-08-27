@@ -49,8 +49,10 @@ public class User implements UserDetails, Serializable{
 	private List<PersonDTO> following = new ArrayList<>();
 	@Setter(value = AccessLevel.NONE)
 	private List<PersonDTO> followers = new ArrayList<>();
-	
-
+	@Setter(value = AccessLevel.NONE)
+	private List<PersonDTO> FriendRequesting = new ArrayList<>();
+	@Setter(value = AccessLevel.NONE)
+	private List<PersonDTO> FriendRequested = new ArrayList<>();
 	
 	
 	public User(String name, String email, String password) {

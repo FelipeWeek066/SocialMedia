@@ -65,5 +65,10 @@ public class TestConfig implements CommandLineRunner{
 		postService.addVote(p2.getId(), new VoteDTO(Vote.daora, new PersonDTO(u3)));
 		postService.addVote(p3.getId(), new VoteDTO(Vote.daora, new PersonDTO(u1)));
 		commentService.addVote(c3.getId(), new VoteDTO(Vote.daora, new PersonDTO(u3)));
+		
+		userService.followSomeOne(u1.getName(), u3.getName());
+		userService.followSomeOne(u3.getName(), u1.getName());
+		userService.requestFriend(u2.getName(), u1.getName());
+		userService.requestFriend(u1.getName(), u2.getName());
 	}
 }

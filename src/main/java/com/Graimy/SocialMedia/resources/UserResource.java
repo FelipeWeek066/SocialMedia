@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.Graimy.SocialMedia.domains.User;
+import com.Graimy.SocialMedia.domains.DTO.PersonDTO;
 import com.Graimy.SocialMedia.domains.DTO.UserDTO;
 import com.Graimy.SocialMedia.services.UserService;
 
@@ -45,9 +47,15 @@ public class UserResource {
 	}*/
 	
 	@GetMapping(value = "/{name}")
-	public ResponseEntity<UserDTO> findByName(@PathVariable String name) {
-		UserDTO obj = new UserDTO(service.findByName(name));
+	public ResponseEntity<PersonDTO> findByName(@PathVariable String name) {
+		PersonDTO obj = new PersonDTO(service.findByName(name));
 		return ResponseEntity.ok().body(obj);
+	}
+	
+	@GetMapping(value = "/Friends")
+	public ResponseEntity<List<PersonDTO>> findMyFriends(){
+		String authenticated = SecurityContextHolder.getContext().getAuthentication().getName();
+		return ResponseEntity.ok().body(service.findFriends(authenticated));
 	}
 	
 	@GetMapping(value = "/Users/{name}")

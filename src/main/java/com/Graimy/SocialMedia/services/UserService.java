@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +13,6 @@ import com.Graimy.SocialMedia.domains.User;
 import com.Graimy.SocialMedia.domains.DTO.PersonDTO;
 import com.Graimy.SocialMedia.enums.Role;
 import com.Graimy.SocialMedia.repository.UserRepository;
-import com.Graimy.SocialMedia.services.exception.BlankContentException;
 import com.Graimy.SocialMedia.services.exception.ObjectNotFoundException;
 
 @Service
@@ -51,10 +48,6 @@ public class UserService {
 		if(tUser.getFollowing().contains(new PersonDTO(fTUser))) {
 			tUser.getFollowing().remove(new PersonDTO(fTUser));
 			fTUser.getFollowers().remove(new PersonDTO(tUser));
-			if(tUser.getFriends().contains(new PersonDTO(fTUser))) {
-				tUser.getFriends().remove(new PersonDTO(fTUser));
-				fTUser.getFriends().remove(new PersonDTO(tUser));
-			}
 			repository.saveAll(Arrays.asList(tUser, fTUser));
 		}else {
 			throw new ObjectNotFoundException(tUser.getName() + " does not follow: " + fTUser.getName());
@@ -67,13 +60,48 @@ public class UserService {
 		if(!tUser.getFollowing().contains(new PersonDTO(fTUser))) {
 			tUser.getFollowing().add(new PersonDTO(fTUser));
 			fTUser.getFollowers().add(new PersonDTO(tUser));
-			if(tUser.getFollowing().contains(new PersonDTO(fTUser))) {
-				tUser.getFriends().add(new PersonDTO(fTUser));
-				fTUser.getFriends().add(new PersonDTO(tUser));
-				System.out.println(tUser.getName() + " is now friend of: " + fTUser.getName());
-			}
 		}
 		repository.saveAll(Arrays.asList(tUser, fTUser));
+	}
+	
+	public void requestFriend(String follower, String followed) {
+		User u1 = findByName(follower);
+		User u2 = findByName(followed);
+		
+		if(!u1.getFriends().contains(new PersonDTO(u2))) {
+			if(!u1.getFriendRequesting().contains(new PersonDTO(u2))) {
+				if(!u2.getFriendRequesting().contains(new PersonDTO(u1))) {
+					u1.getFriendRequesting().add(new PersonDTO(u2));
+					u2.getFriendRequested().add(new PersonDTO(u1));
+				}else {
+					u2.getFriendRequesting().remove(new PersonDTO(u1));
+					u1.getFriendRequested().remove(new PersonDTO(u2));
+					u1.getFriends().add(new PersonDTO(u2));
+					u2.getFriends().add(new PersonDTO(u1));
+				}
+			}else {
+				u1.getFriendRequesting().remove(new PersonDTO(u2));
+				u2.getFriendRequested().remove(new PersonDTO(u1));
+			}
+		}
+		
+		repository.saveAll(Arrays.asList(u1,u2));
+	}
+	
+	public void removeRelationShip(String follower, String followed) {
+		User u1 = findByName(follower);
+		User u2 = findByName(followed);
+		
+		if(u1.getFriends().contains(new PersonDTO(u2))) {
+			u1.getFriends().remove(u2);
+			u2.getFriends().remove(u1);
+			
+			repository.saveAll(Arrays.asList(u1,u2));
+		}
+		
+	}
+	public List<PersonDTO> findFriends(String userName){
+		return findByName(userName).getFriends();
 	}
 	
 	public void insert(User user) {
